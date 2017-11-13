@@ -1,0 +1,82 @@
+<html>
+ <head>
+ <meta charset='utf-8'>
+ <title>Zika Virus Spread from 2015 - 2016</title>
+ <meta name = 'viewport' content = 'initial-scale=1, maximum-scale=1, user-scalable=no' />
+ <script src='https://api.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+ <link href='https://api.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+ <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+  }
+
+  #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  h2 {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #2DC4B2;
+  }
+
+  #console {
+    position: absolute;
+    width: 240px;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: white;
+  }
+  </style>
+</head>
+ <body>
+   <div id='map'></div>
+   <div id ='console'>
+     <h1>Zika Virus Spread</h1>
+     <p>Data: <a href='https://www.kaggle.com/cdc/zika-virus-epidemic'>CDC Zika Epidemic Data</a></p>
+   </div>
+   <script>
+    mapboxgl.accessToken='pk.eyJ1IjoibmF0aGFubG9hdHdvcmsiLCJhIjoiY2o5YWM0OTRxMTMxYzJ3bnJxZTY3c2J6ZyJ9.U8QaHDa4xKT2bH6PXbxdCA';
+    var map= new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v9',
+      center: [-102.5528,23.6345],
+      zoom: 2
+    });
+    map.on('load', function(){
+      map.addLayer({
+        id: 'zikaReport',
+        type: 'fill',
+        source:{
+          type: 'geojson',
+          data: './zikaSpreadData.geojson'
+        },
+        paint:{
+          'fill-color':{
+            property: 'Total',
+            type: 'categorical',
+            stops:[
+              [0, '#F2F12D']
+            ]
+          },
+          'fill-opacity': 0.8
+        }
+      }, 'admin-2-boundaries-dispute');
+    });
+   </script>
+ </body>
